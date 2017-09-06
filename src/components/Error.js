@@ -1,5 +1,5 @@
 import React from 'react'
-import { notFound } from '../css/Switcher'
+import { notFound } from '../styles/Switcher'
 
 export default error =>
   <div className={notFound}>

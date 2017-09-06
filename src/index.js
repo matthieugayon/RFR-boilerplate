@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import createHistory from 'history/createBrowserHistory'
 import AppContainer from 'react-hot-loader/lib/AppContainer'
-import App from './components/App'
+import App from './components/base/App'
 import configureStore from './configureStore'
 
 const history = createHistory()
@@ -25,8 +25,8 @@ const render = App => {
 render(App)
 
 if (module.hot && process.env.NODE_ENV === 'development') {
-  module.hot.accept('./components/App', () => {
-    const App = require('./components/App').default
+  module.hot.accept('./components/base/App', () => {
+    const App = require('./components/base/App').default
     render(App)
   })
 }

@@ -12,7 +12,7 @@ const externals = fs
   .readdirSync(res('../node_modules'))
   .filter(
     x =>
-      !/\.bin|react-universal-component|require-universal-module|webpack-flush-chunks/.test(
+      !/\.bin|flexboxgrid|react-flexbox-grid|react-universal-component|require-universal-module|webpack-flush-chunks/.test(
         x
       )
   )
@@ -43,19 +43,39 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
         use: {
           loader: 'css-loader/locals',
           options: {
             modules: true,
-            localIdentName: '[name]__[local]--[hash:base64:5]'
+            sourceMap: true,
+            importLoaders: 1,
+            localIdentName: '[name]__[local]--[hash:base64:8]'
           }
-        }
+        },
+        include: /flexboxgrid/
+      },
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'css-loader/locals',
+            options: {
+              modules: true,
+              sourceMap: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]--[hash:base64:8]'
+            }
+          },
+          {
+            loader: 'postcss-loader'
+          }
+        ],
+        exclude: /flexboxgrid/
       }
     ]
   },
   resolve: {
-    extensions: ['.js', '.css']
+    extensions: ['.js', '.css', '.scss']
   },
   plugins: [
     new webpack.optimize.LimitChunkCountPlugin({

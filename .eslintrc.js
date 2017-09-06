@@ -16,7 +16,7 @@ module.exports = {
     },
     'import/resolver': {
       node: {
-        extensions: ['.js', '.json', '.css', '.styl']
+        extensions: ['.js', '.json', '.css', '.scss', '.styl']
       }
     }
   },
@@ -55,24 +55,26 @@ module.exports = {
     'no-confusing-arrow': 0,
     'no-underscore-dangle': 0,
     'no-plusplus': 0,
-    camelcase: 1,
+    camelcase: 0,
     'prefer-template': 1,
     'react/no-array-index-key': 1,
-    'global-require': 1,
+    'global-require': 0,
     'react/jsx-indent': 1,
     'dot-notation': 1,
     'import/no-named-default': 1,
+    'import/no-mutable-exports': 0,
     'no-unused-vars': 1,
     'flowtype/no-weak-types': 1,
-    'consistent-return': 1,
+    'consistent-return': 0,
     'import/prefer-default-export': 1,
-    'no-console': 1,
+    'no-console': 0,
     'jsx-a11y/no-static-element-interactions': 1,
     'no-case-declarations': 1,
     semi: [2, 'never'],
     'flowtype/semi': [2, 'never'],
     'jsx-quotes': [2, 'prefer-single'],
     'react/jsx-filename-extension': [2, { extensions: ['.jsx', '.js'] }],
+    'react/prefer-stateless-function': [2, { 'ignorePureComponents': true }],
     'spaced-comment': [2, 'always', { markers: ['?'] }],
     'arrow-parens': [2, 'as-needed', { requireForBlockBody: false }],
     'brace-style': [2, 'stroustrup'],

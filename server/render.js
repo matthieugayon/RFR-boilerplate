@@ -4,9 +4,9 @@ import { Provider } from 'react-redux'
 import { flushChunkNames } from 'react-universal-component/server'
 import flushChunks from 'webpack-flush-chunks'
 import configureStore from './configureStore'
-import App from '../src/components/App'
+import App from '../src/components/base/App'
 
-export default ({ clientStats }) => async (req, res, next) => {
+export default ({ clientStats }) => async (req, res) => {
   const store = await configureStore(req, res)
   if (!store) return // no store means redirect was already served
 

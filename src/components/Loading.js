@@ -1,4 +1,4 @@
 import React from 'react'
-import { spinner } from '../css/Switcher'
+import { spinner } from '../styles/Switcher'
 
 export default () => <div className={spinner}><div /></div>

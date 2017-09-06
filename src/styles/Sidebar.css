@@ -1,0 +1,5 @@
+.sidebar {
+  width: 150px;
+  margin-left: 5px;
+  z-index: 2;
+}

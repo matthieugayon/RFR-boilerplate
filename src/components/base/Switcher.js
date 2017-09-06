@@ -3,15 +3,13 @@ import { connect } from 'react-redux'
 import { TransitionGroup, Transition } from 'transition-group'
 import universal from 'react-universal-component'
 
-import Loading from './Loading'
-import Err from './Error'
-import isLoading from '../selectors/isLoading'
-import styles from '../css/Switcher'
+import Loading from '../Loading'
+import isLoading from '../../selectors/isLoading'
+import styles from '../../styles/Switcher'
 
-const UniversalComponent = universal(({ page }) => import(`./${page}`), {
+const UniversalComponent = universal(({ page }) => import(`../scenes/${page}`), {
   minDelay: 500,
-  loading: Loading,
-  error: Err
+  loading: Loading
 })
 
 const Switcher = ({ page, direction, isLoading }) =>

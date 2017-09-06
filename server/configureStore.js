@@ -1,26 +1,43 @@
 import createHistory from 'history/createMemoryHistory'
 import { NOT_FOUND } from 'redux-first-router'
 import configureStore from '../src/configureStore'
+import { refreshToken } from '../src/actions/auth/session'
 
 export default async (req, res) => {
-  const jwToken = req.cookies.jwToken // see server/index.js to change jwToken
-  const preLoadedState = { jwToken } // onBeforeChange will authenticate using this
+  const access_token = req.cookies.access_token
+  const refresh_token = req.cookies.refresh_token
+
+  const preLoadedState = { session: { access_token, refresh_token } } // onBeforeChange will authenticate using this
 
   const history = createHistory({ initialEntries: [req.path] })
-  const { store, thunk } = configureStore(history, preLoadedState)
+  const {
+    store,
+    thunk } = configureStore(history, preLoadedState)
 
-  // if not using onBeforeChange + jwTokens, you can also async authenticate
-  // here against your db (i.e. using req.cookies.sessionId)
+  if (access_token) {
+    const { exp } = Buffer.from(access_token, 'base64')
+
+    if (exp) {
+      const now = new Date()
+      const expiry = new Date(exp)
+      if (now.getTime() > expiry.getTime()) {
+        // if the access_token is outdated try to refresh it
+        await store.dispatch(refreshToken)
+
+        const { session: { access_token } } = store.getState()
+
+        // re set access_token cookie
+        res.cookie('access_token', access_token, { maxAge: 900000 })
+      }
+    }
+  }
 
   let location = store.getState().location
   if (doesRedirect(location, res)) return false
 
-  // using redux-thunk perhaps request and dispatch some app-wide state as well, e.g:
-  // await Promise.all([store.dispatch(myThunkA), store.dispatch(myThunkB)])
+  await thunk(store)
 
-  await thunk(store) // THE PAYOFF BABY!
-
-  location = store.getState().location // remember: state has now changed
+  location = store.getState().location
   if (doesRedirect(location, res)) return false // only do this again if ur thunks have redirects
 
   const status = location.type === NOT_FOUND ? 404 : 200

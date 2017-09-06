@@ -36,15 +36,38 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[name]__[local]--[hash:base64:5]'
+              sourceMap: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]--[hash:base64:8]'
             }
           }
-        })
+        }),
+        include: /flexboxgrid/
+      },
+      {
+        test: /\.css$/,
+        use: ExtractCssChunks.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                sourceMap: true,
+                importLoaders: 1,
+                localIdentName: '[name]__[local]--[hash:base64:8]'
+              }
+            },
+            {
+              loader: 'postcss-loader'
+            }
+          ]
+        }),
+        exclude: /flexboxgrid/
       }
     ]
   },
   resolve: {
-    extensions: ['.js', '.css']
+    extensions: ['.js', '.css', '.scss']
   },
   plugins: [
     new WriteFilePlugin(), // used so you can see what chunks are produced in dev
